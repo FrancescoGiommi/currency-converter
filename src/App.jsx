@@ -1,12 +1,26 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect } from "react";
+
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  function convert(from, to, amount) {
+    fetch(`https://api.frankfurter.dev/v1/latest?base=${from}&symbols=${to}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+        const convertedAmount = (amount * data.rates[to]).toFixed(2);
+        console.log(`${amount} ${from} = ${convertedAmount} ${to}`);
+      });
+  }
 
-  return <></>;
+  useEffect(() => {
+    convert("USD", "EUR", 100); // esempio: 100 dollari in euro
+  }, []);
+
+  return (
+    <>
+      <h1>CURRENCY BOOLVELTER</h1>
+    </>
+  );
 }
 
 export default App;
