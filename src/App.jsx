@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import CurrencyInput from "../components/CurrencyInput";
 
 import "./App.css";
@@ -11,23 +12,37 @@ function App() {
   const [currency2, setCurrency2] = useState("USD");
 
   function currency() {
-    fetch("https://api.frankfurter.dev/v1/currencies")
-      .then((res) => res.json())
-      .then((data) => {
+    axios
+      .get("https://api.frankfurter.dev/v1/currencies")
+      .then((res) => {
         // Trasformo l'oggetto in un array
-        const currencyList = Object.keys(data);
+        const currencyList = Object.keys(res.data);
         setCurrencies(currencyList);
         console.log(currencyList);
+      })
+      .catch((error) => {
+        console.error("Error fetching currencies:", error);
       });
   }
 
   function convert(from, to, amount) {
-    fetch(
-      `https://api.frankfurter.dev/v1/latest?${amount}=${amount1}&${from}=${currency1}&${to}=${currency2}`
-    )
-      .then((resp) => resp.json())
-      .then((data) => {
-        setAmount2(data.rates[currency2]);
+    if (from === to) {
+      setAmount2(amount);
+      return;
+    }
+    axios
+      .get(`https://api.frankfurter.dev/v1/latest`, {
+        params: {
+          amount: amount,
+          from: from,
+          to: to,
+        },
+      })
+      .then((response) => {
+        setAmount2(response.data.rates[to]);
+      })
+      .catch((error) => {
+        console.error("Error converting currency:", error);
       });
   }
 
