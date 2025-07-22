@@ -8,17 +8,18 @@ function App() {
   const [currencies, setCurrencies] = useState([]);
   const [amount1, setAmount1] = useState(0);
   const [amount2, setAmount2] = useState(0);
-  const [currency1, setCurrency1] = useState("EUR");
-  const [currency2, setCurrency2] = useState("USD");
+  const [currency1, setCurrency1] = useState("Euro");
+  const [currency2, setCurrency2] = useState("United States Dollar");
 
   function currency() {
     axios
       .get("https://api.frankfurter.dev/v1/currencies")
       .then((res) => {
         // Trasformo l'oggetto in un array
-        const currencyList = Object.keys(res.data);
-        setCurrencies(currencyList);
-        console.log(currencyList);
+        const currencyList = res.data;
+        const names = Object.values(currencyList);
+        setCurrencies(names);
+        console.log(names);
       })
       .catch((error) => {
         console.error("Error fetching currencies:", error);
