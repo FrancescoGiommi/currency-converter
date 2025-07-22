@@ -77,6 +77,7 @@ function App() {
         currency={currency1}
         onAmountChange={handleAmount1Change}
         onCurrencyChange={handleCurrency1Change}
+        disabledCurrency={currency2}
       />
       <CurrencyInput
         currencies={currencies}
@@ -84,6 +85,7 @@ function App() {
         currency={currency2}
         onAmountChange={handleAmount2Change}
         onCurrencyChange={handleCurrency2Change}
+        disabledCurrency={currency1}
       />
     </div>
   );

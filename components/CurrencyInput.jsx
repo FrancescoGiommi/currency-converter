@@ -4,6 +4,7 @@ export default function CurrencyInput({
   currency,
   onAmountChange,
   onCurrencyChange,
+  disabledCurrency,
 }) {
   return (
     <div className="form-control d-flex my-3">
@@ -19,7 +20,7 @@ export default function CurrencyInput({
         onChange={(e) => onCurrencyChange(e.target.value)}
       >
         {Object.entries(currencies).map(([code, name]) => (
-          <option key={code} value={code}>
+          <option key={code} value={code} disabled={code === disabledCurrency}>
             {code} - {name}
           </option>
         ))}
