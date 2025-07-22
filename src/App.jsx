@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 import CurrencyInput from "../components/CurrencyInput";
+import ExchangeChart from "../components/ExchangeChart";
 import "./App.css";
 
 function App() {
@@ -9,7 +11,11 @@ function App() {
   const [amount2, setAmount2] = useState(0);
   const [currency1, setCurrency1] = useState("EUR");
   const [currency2, setCurrency2] = useState("USD");
-  const [isAmount1Changed, setIsAmount1Changed] = useState(true); // 👈
+  const [isAmount1Changed, setIsAmount1Changed] = useState(true);
+  const [chartData, setChartData] = useState({
+    categories: [],
+    series: [],
+  });
 
   // Carica valute una sola volta
   useEffect(() => {
@@ -45,6 +51,34 @@ function App() {
       .catch((error) => console.error("Error converting:", error));
   }, [amount1, amount2, currency1, currency2, isAmount1Changed]);
 
+  useEffect(() => {
+    if (currency1 === currency2) return;
+
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(endDate.getDate() - 30); // ultimi 30 giorni
+
+    const formatDate = (date) => date.toISOString().split("T")[0];
+    const fromDate = formatDate(startDate);
+    const toDate = formatDate(endDate);
+
+    axios
+      .get(`https://api.frankfurter.app/${fromDate}..${toDate}`, {
+        params: {
+          from: currency1,
+          to: currency2,
+        },
+      })
+      .then((res) => {
+        const data = res.data.rates;
+        const categories = Object.keys(data);
+        const series = categories.map((date) => data[date][currency2]);
+
+        setChartData({ categories, series });
+      })
+      .catch((err) => console.error("Errore grafico:", err));
+  }, [currency1, currency2]);
+
   // Handlers per input 1 e 2
   function handleAmount1Change(amount) {
     setAmount1(amount);
@@ -65,29 +99,37 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <h1 className="text-center mt-5">CURRENCY BOOLVELTER</h1>
-      <h2>
-        {amount1} {currency1} = {amount2} {currency2}
-      </h2>
+    <>
+      <div className="container">
+        <h1 className="text-center mt-5">CURRENCY BOOLVELTER</h1>
+        <h2>
+          {amount1} {currency1} = {amount2} {currency2}
+        </h2>
 
-      <CurrencyInput
-        currencies={currencies}
-        amount={amount1}
-        currency={currency1}
-        onAmountChange={handleAmount1Change}
-        onCurrencyChange={handleCurrency1Change}
-        disabledCurrency={currency2}
-      />
-      <CurrencyInput
-        currencies={currencies}
-        amount={amount2}
-        currency={currency2}
-        onAmountChange={handleAmount2Change}
-        onCurrencyChange={handleCurrency2Change}
-        disabledCurrency={currency1}
-      />
-    </div>
+        <CurrencyInput
+          currencies={currencies}
+          amount={amount1}
+          currency={currency1}
+          onAmountChange={handleAmount1Change}
+          onCurrencyChange={handleCurrency1Change}
+          disabledCurrency={currency2}
+        />
+        <CurrencyInput
+          currencies={currencies}
+          amount={amount2}
+          currency={currency2}
+          onAmountChange={handleAmount2Change}
+          onCurrencyChange={handleCurrency2Change}
+          disabledCurrency={currency1}
+        />
+        {currency1 !== currency2 && chartData.series.length > 0 && (
+          <ExchangeChart
+            categories={chartData.categories}
+            series={chartData.series}
+          />
+        )}
+      </div>
+    </>
   );
 }
 
