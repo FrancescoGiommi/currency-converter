@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+body {
+  background-color: oklch(20.8% 0.042 265.755);
+}
+
+.border {
+  color: oklch(72.3% 0.219 149.579);
+  border-radius: 12px;
+}
+
+.title {
+  color: oklch(72.3% 0.219 149.579);
+}
+
+.subtitle {
+  color: oklch(90.5% 0.182 98.111);
+}

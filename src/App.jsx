@@ -120,9 +120,9 @@ function App() {
 
   return (
     <>
-      <div className="container">
-        <h1 className="text-center mt-5">CURRENCY BOOLVELTER</h1>
-        <h2>
+      <div className="container border  mt-5">
+        <h1 className="text-center mt-5 title">CURRENCY BOOLVELTER</h1>
+        <h2 className="subtitle">
           {amount1} {currency1} = {amount2} {currency2}
         </h2>
         {/* Input  */}

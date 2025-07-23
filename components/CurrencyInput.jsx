@@ -7,10 +7,10 @@ export default function CurrencyInput({
   disabledCurrency,
 }) {
   return (
-    <div className="form-control d-flex my-3">
+    <div className="d-flex my-3">
       <input
         type="number"
-        className="form-control"
+        className="form-control py-4"
         value={amount}
         onChange={(e) => onAmountChange(Number(e.target.value))}
       />
