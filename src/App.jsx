@@ -125,7 +125,7 @@ function App() {
         <h2>
           {amount1} {currency1} = {amount2} {currency2}
         </h2>
-
+        {/* Input  */}
         <CurrencyInput
           currencies={currencies}
           amount={amount1}
@@ -134,6 +134,7 @@ function App() {
           onCurrencyChange={handleCurrency1Change}
           disabledCurrency={currency2}
         />
+        {/* Input  */}
         <CurrencyInput
           currencies={currencies}
           amount={amount2}
