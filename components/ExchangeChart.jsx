@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 export default function ExchangeChart({ series, categories }) {
   const chartOptions = {
     chart: {
-      type: "area", // cambia "line" in "area" o "bar", ecc.
+      type: "area",
       toolbar: {
         show: true,
       },
@@ -13,7 +13,7 @@ export default function ExchangeChart({ series, categories }) {
         speed: 800,
       },
     },
-    colors: ["#00BFFF"], // blu personalizzato
+    colors: ["#00BFFF"],
     dataLabels: {
       enabled: false,
     },

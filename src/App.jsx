@@ -17,67 +17,87 @@ function App() {
     series: [],
   });
 
-  // Carica valute una sola volta
   useEffect(() => {
-    axios
-      .get("https://api.frankfurter.app/currencies")
-      .then((res) => setCurrencies(res.data))
-      .catch((error) => console.error("Error fetching currencies:", error));
+    fetchCurrencies();
   }, []);
 
-  // Conversione automatica
   useEffect(() => {
     if (currency1 === currency2) {
       setAmount2(amount1);
       return;
     }
 
+    convert();
+  }, [amount1, amount2, currency1, currency2, isAmount1Changed]);
+
+  useEffect(() => {
+    if (currency1 === currency2) return;
+    fetchChartData();
+  }, [currency1, currency2]);
+
+  // Funzione esterna per valute
+  async function fetchCurrencies() {
+    try {
+      const response = await axios.get(
+        "https://api.frankfurter.app/currencies"
+      );
+      setCurrencies(response.data);
+    } catch (error) {
+      console.error("Error fetching currencies:", error);
+    }
+  }
+
+  // Funzione esterna per la conversione
+  async function convert() {
     const amountToConvert = isAmount1Changed ? amount1 : amount2;
     const from = isAmount1Changed ? currency1 : currency2;
     const to = isAmount1Changed ? currency2 : currency1;
 
-    axios
-      .get("https://api.frankfurter.app/latest", {
+    try {
+      const response = await axios.get("https://api.frankfurter.app/latest", {
         params: {
           amount: amountToConvert,
           from,
           to,
         },
-      })
-      .then((res) => {
-        const result = res.data.rates[to];
-        isAmount1Changed ? setAmount2(result) : setAmount1(result);
-      })
-      .catch((error) => console.error("Error converting:", error));
-  }, [amount1, amount2, currency1, currency2, isAmount1Changed]);
+      });
+      const result = response.data.rates[to];
+      isAmount1Changed ? setAmount2(result) : setAmount1(result);
+    } catch (error) {
+      console.error("Error converting currency:", error);
+    }
+  }
 
-  useEffect(() => {
-    if (currency1 === currency2) return;
-
+  // Funzione esterna per il grafico
+  async function fetchChartData() {
     const endDate = new Date();
     const startDate = new Date();
-    startDate.setDate(endDate.getDate() - 30); // ultimi 30 giorni
+    startDate.setDate(endDate.getDate() - 30);
 
     const formatDate = (date) => date.toISOString().split("T")[0];
     const fromDate = formatDate(startDate);
     const toDate = formatDate(endDate);
 
-    axios
-      .get(`https://api.frankfurter.app/${fromDate}..${toDate}`, {
-        params: {
-          from: currency1,
-          to: currency2,
-        },
-      })
-      .then((res) => {
-        const data = res.data.rates;
-        const categories = Object.keys(data);
-        const series = categories.map((date) => data[date][currency2]);
+    try {
+      const response = await axios.get(
+        `https://api.frankfurter.app/${fromDate}..${toDate}`,
+        {
+          params: {
+            from: currency1,
+            to: currency2,
+          },
+        }
+      );
 
-        setChartData({ categories, series });
-      })
-      .catch((err) => console.error("Errore grafico:", err));
-  }, [currency1, currency2]);
+      const rates = response.data.rates;
+      const categories = Object.keys(rates);
+      const series = categories.map((date) => rates[date][currency2]);
+
+      setChartData({ categories, series });
+    } catch (err) {
+      console.error("Errore grafico:", err);
+    }
+  }
 
   // Handlers per input 1 e 2
   function handleAmount1Change(amount) {
