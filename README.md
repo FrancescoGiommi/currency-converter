@@ -37,6 +37,4 @@ Include un grafico interattivo dell'andamento storico del cambio tra due valute,
 <img width="2560" height="1256" alt="Desktop Screenshot 2025 07 24 - 12 29 45 04" src="https://github.com/user-attachments/assets/e4865cf9-c5e7-4614-a0b0-36a2b3e28ffc" />
 <img width="2560" height="1202" alt="Desktop Screenshot 2025 07 24 - 12 32 03 33" src="https://github.com/user-attachments/assets/c2078805-aaf4-4317-aa78-fd1608365d3c" />
 
-🧠 Obiettivi del progetto
 
-   Questo progetto è stato realizzato come esercizio per migliorare le competenze in React, gestione delle API e data visualization.
