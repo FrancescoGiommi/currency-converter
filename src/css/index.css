@@ -8,8 +8,8 @@ body {
 
 .border {
   color: oklch(62.7% 0.194 149.214);
+  border-radius: 12px;
 }
-
 .title {
   color: oklch(62.7% 0.194 149.214);
   font-size: 4rem;
