@@ -10,12 +10,12 @@ export default function CurrencyInput({
     <div className="d-flex my-3">
       <input
         type="number"
-        className="form-control py-4"
+        className="form-control py-4 bg-dark text-white border border-success rounded-start-2"
         value={amount}
         onChange={(e) => onAmountChange(Number(e.target.value))}
       />
       <select
-        className="form-select"
+        className="form-select bg-dark text-white border border-success"
         value={currency}
         onChange={(e) => onCurrencyChange(e.target.value)}
       >

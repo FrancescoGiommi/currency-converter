@@ -17,10 +17,12 @@ function App() {
     series: [],
   });
 
+  // useEffect per caricare le valute all'avvio del componente
   useEffect(() => {
     fetchCurrencies();
   }, []);
 
+  // useEffect per gestire la conversione
   useEffect(() => {
     if (currency1 === currency2) {
       setAmount2(amount1);
@@ -30,6 +32,7 @@ function App() {
     convert();
   }, [amount1, amount2, currency1, currency2, isAmount1Changed]);
 
+  // useEffect per aggiornare il grafico quando le valute cambiano
   useEffect(() => {
     if (currency1 === currency2) return;
     fetchChartData();
@@ -121,13 +124,18 @@ function App() {
   return (
     <>
       <div className="container border  mt-5">
+        {/* Titolo */}
         <h1 className="text-center mt-5 title">CURRENCY BOOLVELTER</h1>
+
+        {/* Testi valuta */}
         <h2 className="subtitle fs-5">
           {amount1} {currency1} è uguale a
         </h2>
+
         <h2 className="subtitle fs-1">
           {amount2} {currency2}
         </h2>
+
         {/* Input  */}
         <CurrencyInput
           currencies={currencies}
@@ -137,6 +145,7 @@ function App() {
           onCurrencyChange={handleCurrency1Change}
           disabledCurrency={currency2}
         />
+
         {/* Input  */}
         <CurrencyInput
           currencies={currencies}
@@ -146,6 +155,8 @@ function App() {
           onCurrencyChange={handleCurrency2Change}
           disabledCurrency={currency1}
         />
+
+        {/* Grafico */}
         {currency1 !== currency2 && chartData.series.length > 0 && (
           <ExchangeChart
             categories={chartData.categories}
