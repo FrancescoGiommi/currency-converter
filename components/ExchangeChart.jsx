@@ -13,7 +13,7 @@ export default function ExchangeChart({ series, categories }) {
         speed: 800,
       },
     },
-    colors: ["#00BFFF"],
+    colors: ["#00a63e"],
     dataLabels: {
       enabled: false,
     },
@@ -32,8 +32,8 @@ export default function ExchangeChart({ series, categories }) {
     },
     markers: {
       size: 5,
-      colors: ["#ffffff"],
-      strokeColors: "#00BFFF",
+      colors: ["#00a63e"],
+      strokeColors: "#00a63e",
       strokeWidth: 2,
       hover: {
         size: 7,
@@ -45,7 +45,7 @@ export default function ExchangeChart({ series, categories }) {
         rotate: -45,
         style: {
           fontSize: "12px",
-          colors: "#333",
+          colors: "#00a63e",
         },
       },
     },
@@ -53,7 +53,7 @@ export default function ExchangeChart({ series, categories }) {
       labels: {
         style: {
           fontSize: "12px",
-          colors: "#333",
+          colors: "#00a63e",
         },
       },
     },
@@ -68,13 +68,13 @@ export default function ExchangeChart({ series, categories }) {
       align: "center",
       style: {
         fontSize: "20px",
-        color: "#333",
+        color: "#00a63e",
       },
     },
     grid: {
       borderColor: "#eee",
       row: {
-        colors: ["#f9f9f9", "transparent"],
+        colors: ["#0f172b", "transparent"],
         opacity: 0.5,
       },
     },

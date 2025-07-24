@@ -2,17 +2,20 @@
 
 body {
   background-color: oklch(20.8% 0.042 265.755);
+  font-family: "Exo 2", sans-serif;
+  font-optical-sizing: auto;
 }
 
 .border {
-  color: oklch(72.3% 0.219 149.579);
+  color: oklch(62.7% 0.194 149.214);
   border-radius: 12px;
 }
 
 .title {
-  color: oklch(72.3% 0.219 149.579);
+  color: oklch(62.7% 0.194 149.214);
+  font-size: 4rem;
 }
 
 .subtitle {
-  color: oklch(90.5% 0.182 98.111);
+  color: oklch(62.7% 0.194 149.214);
 }
